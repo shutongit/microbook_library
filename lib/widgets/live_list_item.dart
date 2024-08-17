@@ -171,12 +171,16 @@ class CenterInfo extends StatelessWidget {
                   width: 20,
                   fit: BoxFit.contain,
                 ),
-                Text(
-                  widget.schoolName,
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.blue[900],
-                      fontWeight: FontWeight.w600),
+                Flexible(
+                  child: Text(
+                    widget.schoolName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.blue[900],
+                        fontWeight: FontWeight.w600),
+                  ),
                 ),
               ],
             ),

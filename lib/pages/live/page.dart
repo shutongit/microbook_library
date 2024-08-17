@@ -16,10 +16,13 @@ class LivePage extends StatefulWidget {
 }
 
 class _LivePageState extends State<LivePage> {
+  /// 当前选中的页面下标
   int _currentPageIndex = 0;
 
+  /// 时间内容数组
   List dateList = getDates();
 
+  /// 颜色内容数组
   List colorList = [
     const Color.fromRGBO(25, 67, 171, 1),
     const Color.fromRGBO(250, 147, 37, 1),
@@ -28,20 +31,13 @@ class _LivePageState extends State<LivePage> {
     const Color.fromRGBO(255, 0, 102, 1),
     const Color.fromRGBO(140, 198, 62, 1),
     const Color.fromRGBO(235, 3, 13, 1),
-    // Colors.red,
-    // Colors.red,
-    // Colors.red,
-    // Colors.red,
-    // Colors.red,
-    // Colors.red,
-    // Colors.red,
-    // Colors.red,
   ];
+
+
 
   @override
   void initState() {
     super.initState();
-    debugPrint('dateList:$dateList');
   }
 
   @override
@@ -64,54 +60,64 @@ class _LivePageState extends State<LivePage> {
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return const TextButton(
-                style: ButtonStyle(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero)),
-                // style: TextButton.styleFrom(
-                //   backgroundColor: _currentPageIndex == index
-                //       ? colorList[index]
-                //       : Colors.transparent,
-                //   shape: const RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.zero,
-                //     // side: BorderSide(
-                //     //   color: _currentPageIndex == index
-                //     //       ? colorList[_currentPageIndex]
-                //     //       : Colors.grey,
-                //     //   width: 1,
-                //     // ),
-                //   ),
-                // ),
-                child: Text(
-                  '${index == 0 ? '今日直播' : dateList[index]['label']}',
-                  style: TextStyle(
-                      color: _currentPageIndex == index
-                          ? Colors.white
-                          : Colors.black,
-                      fontSize: _currentPageIndex == index ? 13 : 12),
-                ),
-                onPressed: () {
+              return InkWell(
+                onTap: () {
                   setState(() {
                     _currentPageIndex = index;
+                    debugPrint('点击$_currentPageIndex');
                   });
                 },
+                child: Container(
+
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      color: _currentPageIndex == index
+                          ? colorList[index]
+                          : Colors.transparent,
+                      border:  Border(
+                          right: BorderSide(color: _currentPageIndex == index
+                              ? colorList[index]
+                              : Colors.grey, width: 1.0),top: BorderSide(color: _currentPageIndex == index
+                          ? colorList[index]
+                          : Colors.grey, width: 1.0) )),
+                  child: Center(
+                    child: Text(
+                      '${index == 0 ? '今日直播' : dateList[index]['label']}',
+                      style: TextStyle(
+                        color: _currentPageIndex == index
+                            ? Colors.white
+                            : Colors.black,
+                        fontSize: _currentPageIndex == index ? 13 : 12,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
               );
+
             },
             itemCount: dateList.length,
           ),
         ),
         Expanded(
+
           child: PageView(
-            children: const [
-              Center(
-                child: Text('First Page'),
-              ),
-              Center(
-                child: Text('Second Page'),
-              ),
-              Center(
-                child: Text('Third Page'),
-              ),
+            onPageChanged: (value) {
+              debugPrint('$value');
+              setState(() {
+                _currentPageIndex = value;
+              });
+            },
+            children:  [
+              const Live(),
+              PlayBack(time: dateList[1]['value'] ?? '',),
+              PlayBack(time: dateList[2]['value'] ?? '',),
+              PlayBack(time: dateList[3]['value'] ?? '',),
+              PlayBack(time: dateList[4]['value'] ?? '',),
+              PlayBack(time: dateList[5]['value'] ?? '',),
+              PlayBack(time: dateList[6]['value'] ?? '',),
+
+
             ],
           ),
         ),
