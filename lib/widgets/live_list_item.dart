@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 class LiveListItem extends StatefulWidget {
   const LiveListItem(
@@ -10,7 +9,8 @@ class LiveListItem extends StatefulWidget {
       required this.logo,
       required this.location,
       required this.time,
-      required this.status});
+      required this.status,
+      this.replayURL = ''});
 
   final String schoolName;
   final String theme;
@@ -19,6 +19,7 @@ class LiveListItem extends StatefulWidget {
   final String location;
   final int time;
   final String status;
+  final String replayURL;
 
   @override
   State<LiveListItem> createState() => _LiveListItemState();
@@ -100,8 +101,8 @@ class RightInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // debugPrint('widget: $widget');
-    Map statusMap = configStatus(widget.status);
+    debugPrint('widget: $widget');
+    Map statusMap = configStatus(widget.status, widget.replayURL);
     return ConstrainedBox(
       constraints: const BoxConstraints.expand(width: 80),
       child: Column(
@@ -218,7 +219,7 @@ String millisecondToHourSecond(int duration) {
 }
 
 /// 配置状态的颜色和文字
-Map<String, dynamic> configStatus(String status) {
+Map<String, dynamic> configStatus(String status, String replayURL) {
   Color color = Colors.grey;
   String text = '直播结束';
   if (status == '正在直播') {
@@ -230,6 +231,11 @@ Map<String, dynamic> configStatus(String status) {
   } else if (status == '直播已结束') {
     color = Colors.red;
     text = '直播结束';
+
+    if (replayURL.isNotEmpty) {
+      color = const Color.fromARGB(255, 70, 83, 200);
+      text = '精彩回放';
+    }
   } else {
     color = Colors.grey;
     text = '未知状态';

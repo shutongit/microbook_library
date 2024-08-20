@@ -17,6 +17,7 @@ class LiveModel {
   final String logo;
   final String status;
   final String theme;
+  final String replayURL;
 
   LiveModel(
       {required this.columnId,
@@ -36,7 +37,8 @@ class LiveModel {
       required this.liveurl,
       required this.logo,
       required this.status,
-      required this.theme});
+      required this.theme,
+      required this.replayURL});
 
   factory LiveModel.fromJson(Map<String, dynamic> json) {
     return LiveModel(
@@ -60,6 +62,7 @@ class LiveModel {
           : 'https://weice.cretech.cn/${json['logo']}',
       status: json['status'],
       theme: json['theme'],
+      replayURL: json['replay_url'] ?? '',
     );
   }
 }

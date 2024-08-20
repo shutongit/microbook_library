@@ -1,8 +1,4 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:microbook_library/pages/live/live.dart';
 import 'package:microbook_library/pages/live/play_back.dart';
 
@@ -16,6 +12,8 @@ class LivePage extends StatefulWidget {
 }
 
 class _LivePageState extends State<LivePage> {
+  late PageController _pageViewController;
+
   /// 当前选中的页面下标
   int _currentPageIndex = 0;
 
@@ -33,16 +31,16 @@ class _LivePageState extends State<LivePage> {
     const Color.fromRGBO(235, 3, 13, 1),
   ];
 
-
-
   @override
   void initState() {
     super.initState();
+    _pageViewController = PageController(initialPage: _currentPageIndex);
   }
 
   @override
   void dispose() {
     super.dispose();
+    _pageViewController.dispose();
   }
 
   @override
@@ -64,23 +62,31 @@ class _LivePageState extends State<LivePage> {
                 onTap: () {
                   setState(() {
                     _currentPageIndex = index;
-                    debugPrint('点击$_currentPageIndex');
+                    _pageViewController.animateToPage(_currentPageIndex,
+                        duration: const Duration(microseconds: 400),
+                        curve: Curves.easeInOut);
                   });
+                  debugPrint('点击$_currentPageIndex');
                 },
                 child: Container(
-
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   decoration: BoxDecoration(
                       color: _currentPageIndex == index
                           ? colorList[index]
                           : Colors.transparent,
-                      border:  Border(
-                          right: BorderSide(color: _currentPageIndex == index
-                              ? colorList[index]
-                              : Colors.grey, width: 1.0),top: BorderSide(color: _currentPageIndex == index
-                          ? colorList[index]
-                          : Colors.grey, width: 1.0) )),
+                      border: Border(
+                          right: BorderSide(
+                              color: _currentPageIndex == index
+                                  ? colorList[index]
+                                  : Colors.grey,
+                              width: 1.0),
+                          top: BorderSide(
+                              color: _currentPageIndex == index
+                                  ? colorList[index]
+                                  : Colors.grey,
+                              width: 1.0))),
                   child: Center(
+                    widthFactor: 1.2,
                     child: Text(
                       '${index == 0 ? '今日直播' : dateList[index]['label']}',
                       style: TextStyle(
@@ -94,30 +100,39 @@ class _LivePageState extends State<LivePage> {
                   ),
                 ),
               );
-
             },
             itemCount: dateList.length,
           ),
         ),
         Expanded(
-
           child: PageView(
+            controller: _pageViewController,
             onPageChanged: (value) {
               debugPrint('$value');
               setState(() {
                 _currentPageIndex = value;
               });
             },
-            children:  [
+            children: [
               const Live(),
-              PlayBack(time: dateList[1]['value'] ?? '',),
-              PlayBack(time: dateList[2]['value'] ?? '',),
-              PlayBack(time: dateList[3]['value'] ?? '',),
-              PlayBack(time: dateList[4]['value'] ?? '',),
-              PlayBack(time: dateList[5]['value'] ?? '',),
-              PlayBack(time: dateList[6]['value'] ?? '',),
-
-
+              PlayBack(
+                time: dateList[1]['value'] ?? '',
+              ),
+              PlayBack(
+                time: dateList[2]['value'] ?? '',
+              ),
+              PlayBack(
+                time: dateList[3]['value'] ?? '',
+              ),
+              PlayBack(
+                time: dateList[4]['value'] ?? '',
+              ),
+              PlayBack(
+                time: dateList[5]['value'] ?? '',
+              ),
+              PlayBack(
+                time: dateList[6]['value'] ?? '',
+              ),
             ],
           ),
         ),
