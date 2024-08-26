@@ -64,7 +64,6 @@ class _LiveState extends State<Live> {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
-            debugPrint('${snapshot.error}');
             return Center(
               child: Text('加载直播列表时出错：${snapshot.error}'),
             );

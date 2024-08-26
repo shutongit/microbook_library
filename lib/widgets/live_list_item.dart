@@ -10,7 +10,8 @@ class LiveListItem extends StatefulWidget {
       required this.location,
       required this.time,
       required this.status,
-      this.replayURL = ''});
+      this.replayURL = '',
+      this.onTap});
 
   final String schoolName;
   final String theme;
@@ -20,6 +21,7 @@ class LiveListItem extends StatefulWidget {
   final int time;
   final String status;
   final String replayURL;
+  final VoidCallback? onTap;
 
   @override
   State<LiveListItem> createState() => _LiveListItemState();
@@ -101,7 +103,6 @@ class RightInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('widget: $widget');
     Map statusMap = configStatus(widget.status, widget.replayURL);
     return ConstrainedBox(
       constraints: const BoxConstraints.expand(width: 80),
@@ -112,18 +113,25 @@ class RightInfo extends StatelessWidget {
           const SizedBox(),
 
           /// 状态视图
-          Container(
-            width: 45,
-            height: 45,
-            decoration: BoxDecoration(
-                color: statusMap['color'],
-                borderRadius: BorderRadius.circular(10)),
-            padding: const EdgeInsets.all(5),
-            child: Text(
-              statusMap['text'],
-              style: const TextStyle(color: Colors.white, fontSize: 12),
-              textAlign: TextAlign.center,
+          GestureDetector(
+            child: Container(
+              width: 45,
+              height: 45,
+              decoration: BoxDecoration(
+                  color: statusMap['color'],
+                  borderRadius: BorderRadius.circular(10)),
+              padding: const EdgeInsets.all(5),
+              child: Text(
+                statusMap['text'],
+                style: const TextStyle(color: Colors.white, fontSize: 12),
+                textAlign: TextAlign.center,
+              ),
             ),
+            onTap: () {
+              if (widget.onTap != null) {
+                widget.onTap!();
+              }
+            },
           ),
 
           /// 时间

@@ -4,6 +4,8 @@ import 'package:microbook_library/pages/live/page.dart';
 import 'package:microbook_library/pages/micro_library.dart';
 import 'package:microbook_library/pages/school_rank.dart';
 import 'package:microbook_library/pages/theme.dart';
+import 'package:microbook_library/pages/video_play.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(const MainApp());
@@ -14,8 +16,26 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: _MainPage(),
+    return MaterialApp.router(
+      routerConfig: GoRouter(routes: [
+        GoRoute(path: '/', builder: (context, state) => const _MainPage()),
+        GoRoute(path: '/live', builder: (context, state) => const LivePage()),
+        GoRoute(
+            path: '/videoPlay',
+            builder: (context, state) {
+              final String extraString =
+                  GoRouterState.of(context).extra! as String;
+
+              // final videoUrl = state.pathParameters['videoUrl'];
+              final videoUrl = state.pathParameters['videoUrl'] ?? '';
+              debugPrint('videoUrl:$videoUrl ,,, $extraString');
+
+              return const VideoPlay(
+                videoUrl:
+                    'https://shtest.cretechsh.cn/cretech/calc/101010/mp4/2024/91f8f19a5b26253335aaac04803294b2.mp4', // state.extra['videoUrl'] ?? '',
+              );
+            })
+      ]),
     );
   }
 }

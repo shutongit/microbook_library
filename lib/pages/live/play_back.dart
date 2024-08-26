@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:microbook_library/http/network_service.dart';
 import 'package:microbook_library/model/live_model.dart';
 import 'package:microbook_library/widgets/live_list_item.dart';
+import 'package:go_router/go_router.dart';
 
 class PlayBack extends StatefulWidget {
   const PlayBack({super.key, required this.time});
@@ -55,8 +56,6 @@ class _PlayBackState extends State<PlayBack> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
         color: Colors.blue,
-        semanticsLabel: '刷新',
-        semanticsValue: '在刷新呢',
         backgroundColor: Colors.amber,
         child: ListView.builder(
           itemBuilder: (context, index) {
@@ -71,6 +70,16 @@ class _PlayBackState extends State<PlayBack> {
               time: model.livetime,
               status: model.status,
               replayURL: model.replayURL,
+              onTap: () {
+                debugPrint('mode: ${model.replayURL}');
+                // context.go('/live');
+                // context.go(Uri(
+                //     path: '/videoPlay',
+                //     queryParameters: {"videoUrl": model.replayURL}).toString());
+                context.go('/videoPlay', extra: model.replayURL);
+                // context
+                //     .go('/videoPlay/${Uri.encodeComponent(model.replayURL)}');
+              },
             );
           },
           itemCount: _dataList.length,

@@ -66,7 +66,6 @@ class _LivePageState extends State<LivePage> {
                         duration: const Duration(microseconds: 400),
                         curve: Curves.easeInOut);
                   });
-                  debugPrint('点击$_currentPageIndex');
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -108,7 +107,6 @@ class _LivePageState extends State<LivePage> {
           child: PageView(
             controller: _pageViewController,
             onPageChanged: (value) {
-              debugPrint('$value');
               setState(() {
                 _currentPageIndex = value;
               });
