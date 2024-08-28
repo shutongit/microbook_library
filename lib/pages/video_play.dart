@@ -6,7 +6,8 @@ import 'package:video_player/video_player.dart';
 class VideoPlay extends StatefulWidget {
   const VideoPlay({super.key, required this.videoUrl});
   final String videoUrl;
-
+// style.refererString = @"http://prog1.cretech.cn"; 视频播放防盗链
+// ?signature=your-signature 链接后面跟上参数做防盗链
   @override
   State<VideoPlay> createState() => _VideoPlayState();
 }

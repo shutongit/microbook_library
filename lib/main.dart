@@ -152,7 +152,7 @@ class __MainPageState extends State<_MainPage> {
           onPressed: () {},
           // style: TextButton.styleFrom(foregroundColor: Colors.white),
           style: const ButtonStyle(
-            foregroundColor: MaterialStatePropertyAll<Color>(Colors.white),
+            foregroundColor: WidgetStatePropertyAll<Color>(Colors.white),
           ),
           child: const Text('搜索'),
         )
