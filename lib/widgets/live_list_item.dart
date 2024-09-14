@@ -7,21 +7,25 @@ class LiveListItem extends StatefulWidget {
       required this.theme,
       required this.content,
       required this.logo,
+      required this.imgBigUrl,
       required this.location,
       required this.time,
       required this.status,
       this.replayURL = '',
-      this.onTap});
+      this.onTap,
+      this.onIconTap});
 
   final String schoolName;
   final String theme;
   final String content;
   final String logo;
+  final String imgBigUrl;
   final String location;
   final int time;
   final String status;
   final String replayURL;
-  final VoidCallback? onTap;
+  final VoidCallback? onTap; // 状态视图的点击
+  final VoidCallback? onIconTap; // icon视图的点击
 
   @override
   State<LiveListItem> createState() => _LiveListItemState();
@@ -83,11 +87,29 @@ class LeftInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      widget.logo,
-      width: 50,
-      height: 50,
-      fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        if (widget.onIconTap != null) {
+          widget.onIconTap!();
+        }
+      },
+      child: Image.network(
+        widget.imgBigUrl.isNotEmpty ? widget.imgBigUrl : widget.logo,
+        width: 50,
+        height: 50,
+        fit: BoxFit.cover,
+        errorBuilder: (
+          BuildContext context,
+          Object error,
+          StackTrace? stackTrace,
+        ) {
+          return const Icon(
+            Icons.error,
+            color: Colors.red,
+            size: 50,
+          );
+        },
+      ),
     );
   }
 }

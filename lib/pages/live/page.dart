@@ -150,7 +150,7 @@ List<Map> getDates() {
         '${time.month.toString().padLeft(2, '0')}-${time.day.toString().padLeft(2, '0')}';
     dates.add({
       'value':
-          '${time.year}${time.month > 10 ? time.month : '0${time.month}'}${time.day}',
+          '${time.year}${time.month > 10 ? time.month : '0${time.month}'}${time.day > 10 ? time.day : '0${time.day}'}',
       "label": timeString
     });
   }

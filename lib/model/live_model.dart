@@ -1,3 +1,5 @@
+// import 'package:flutter/material.dart';
+
 class LiveModel {
   final int columnId;
   final String columnImg;
@@ -69,6 +71,8 @@ class LiveModel {
 
 /// 判断链接是否以http开头
 bool isHttpLink(String url) {
-  if (url.isEmpty) return false;
-  return url.startsWith('http://') || url.startsWith('https://');
+  if (url.isEmpty || url == '') return false;
+  final isLink = url.startsWith('http://') || url.startsWith('https://');
+
+  return isLink;
 }

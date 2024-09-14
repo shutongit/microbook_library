@@ -60,12 +60,12 @@ class _PlayBackState extends State<PlayBack> {
         child: ListView.builder(
           itemBuilder: (context, index) {
             LiveModel model = _dataList[index];
-
             return LiveListItem(
               schoolName: model.companyName,
               theme: model.theme,
               content: model.content,
               logo: model.logo,
+              imgBigUrl: model.imgBigUrl,
               location: model.livelocation,
               time: model.livetime,
               status: model.status,

@@ -27,12 +27,11 @@ class MainApp extends StatelessWidget {
                   GoRouterState.of(context).extra! as String;
 
               // final videoUrl = state.pathParameters['videoUrl'];
-              final videoUrl = state.pathParameters['videoUrl'] ?? '';
-              debugPrint('videoUrl:$videoUrl ,,, $extraString');
+              // final videoUrl = state.pathParameters['videoUrl'] ?? '';
+              // debugPrint('videoUrl:$videoUrl ,,, $extraString');
 
-              return const VideoPlay(
-                videoUrl:
-                    'https://shtest.cretechsh.cn/cretech/calc/101010/mp4/2024/91f8f19a5b26253335aaac04803294b2.mp4', // state.extra['videoUrl'] ?? '',
+              return VideoPlay(
+                videoUrl: extraString, // state.extra['videoUrl'] ?? '',
               );
             })
       ]),

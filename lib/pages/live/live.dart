@@ -76,17 +76,110 @@ class _LiveState extends State<Live> {
               itemBuilder: (content, index) {
                 LiveModel model = snapshot.data![index];
                 return LiveListItem(
-                    schoolName: model.companyName,
-                    theme: model.theme,
-                    content: model.content,
-                    logo: model.logo,
-                    location: model.livelocation,
-                    time: model.livetime,
-                    status: model.status);
+                  schoolName: model.companyName,
+                  theme: model.theme,
+                  content: model.content,
+                  logo: model.logo,
+                  imgBigUrl: model.imgBigUrl,
+                  location: model.livelocation,
+                  time: model.livetime,
+                  status: model.status,
+                  onIconTap: () {
+                    _dialogBuilder(context, model);
+                  },
+                );
               },
               itemCount: snapshot.data!.length,
             );
           }
         });
   }
+}
+
+Future<void> _dialogBuilder(BuildContext context, LiveModel model) {
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          // title: Text(model.companyName),
+          children: [
+            Padding(
+                padding: const EdgeInsets.all(10),
+                child: ConstrainedBox(
+                  constraints:
+                      const BoxConstraints(minWidth: 280, maxWidth: 400),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/hand_away.png',
+                              width: 20,
+                              fit: BoxFit.contain,
+                            ),
+                            Flexible(
+                              child: Text(
+                                model.companyName,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.blue[900],
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        // Text(model.companyName),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Image.network(
+                          model.logo,
+                          height: 100,
+                          fit: BoxFit.contain,
+                          errorBuilder: (
+                            BuildContext context,
+                            Object error,
+                            StackTrace? stackTrace,
+                          ) {
+                            return const Icon(
+                              Icons.error,
+                              color: Colors.red,
+                              size: 50,
+                            );
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          model.theme,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Text(
+                        model.content,
+                        style: TextStyle(color: Colors.grey[400], fontSize: 12),
+                      ),
+                      MaterialButton(
+                        color: Colors.green,
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        onPressed: () {
+                          debugPrint('dialog click');
+                        },
+                        child: Text(model.status),
+                      ),
+                    ],
+                  ),
+                )),
+          ],
+        );
+      });
 }
