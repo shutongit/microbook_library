@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="IE=edge">
+  <meta name="viewport"
+    content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+  <title>创先泰克直播云</title>
+  <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.8.2/skins/default/aliplayer-min.css" />
+  <script type="text/javascript" charset="utf-8"
+    src="https://g.alicdn.com/de/prismplayer/2.8.2/aliplayer-min.js"></script>
+</head>
+
+<body>
+  <div class="prism-player" id="player-con"></div>
+  <script>
+    // 获取url中"?"符后的字串
+
+    function GetNameRequest() {
+      var url = window.location.search;
+      var theRequest = new Object();
+      if (url.indexOf("?") != -1) {
+        var xiabiao = url.indexOf('?')
+        var str = url.substr(xiabiao + 1);
+        var strs = str.split("&");
+        for (var i = 0; i < strs.length; i++) {
+          theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        }
+      }
+      return theRequest;
+    }
+    var source = GetNameRequest().play
+    var player = new Aliplayer({
+      // "id": "player-con",
+      // "source": source,
+      // "width": "100%",
+      // "height": "500px",
+      // "autoplay": true,
+      // "isLive": false,
+      // "rePlay": true,
+      // "showBuffer": true,
+      // "snapshot": false,
+      // "showBarTime": 5000,
+      // "useFlashPrism": true,
+              "id": "player-con",
+              "source": source,
+              "width": "100%",
+              "height":  document.documentElement.clientHeight+'px',
+              "autoplay": true,
+              "isLive": false,
+              "rePlay": false,
+              "playsinline": true,
+              "preload": true,
+              "controlBarVisibility": "hover",
+              "useH5Prism": true
+    }, function (player) {
+              var handleReady = function(e)
+              {
+                window.location.replace('./playvideo.html?play='+source);
+              }
+              player.on('ended',handleReady);
+              console.log("The player is created");
+
+    }
+    );
+  </script>
+</body>
+
+</html>

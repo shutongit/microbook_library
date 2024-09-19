@@ -39,7 +39,8 @@ class _PlayBackState extends State<PlayBack> {
       };
       final String paramString =
           param.entries.map((e) => '${e.key}=${e.value}').join('&');
-      final response = await _networkService.get('$url$paramString');
+      final response =
+          await _networkService.get(type: 0, endpoint: '$url$paramString');
 
       List<dynamic> data = response['data'] ?? [];
       List<LiveModel> list =
