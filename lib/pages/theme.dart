@@ -9,6 +9,13 @@ class ThemePage extends StatefulWidget {
 
 class _ThemePageState extends State<ThemePage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    debugPrint('theme');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(

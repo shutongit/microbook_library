@@ -34,6 +34,7 @@ class _LivePageState extends State<LivePage> {
   @override
   void initState() {
     super.initState();
+
     _pageViewController = PageController(initialPage: _currentPageIndex);
   }
 
@@ -112,6 +113,11 @@ class _LivePageState extends State<LivePage> {
               });
             },
             children: [
+              // LazyController(
+              //   builder: (context) {
+              //     return const Live();
+              //   },
+              // ),
               const Live(),
               PlayBack(
                 time: dateList[1]['value'] ?? '',
@@ -155,4 +161,10 @@ List<Map> getDates() {
     });
   }
   return dates;
+}
+
+class LazyController {
+  final Widget Function(BuildContext context) builder;
+
+  LazyController({required this.builder});
 }

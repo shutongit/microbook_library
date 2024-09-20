@@ -9,6 +9,13 @@ class About extends StatefulWidget {
 
 class _AboutState extends State<About> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    debugPrint('about');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return const Placeholder(
       child: Text('关于'),

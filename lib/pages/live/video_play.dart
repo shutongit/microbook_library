@@ -25,6 +25,8 @@ class _VideoPlayState extends State<VideoPlay> {
 
   @override
   void initState() {
+    debugPrint('3');
+
     super.initState();
     _downloadVideo();
 
@@ -124,10 +126,9 @@ class _VideoPlayState extends State<VideoPlay> {
         appBar: AppBar(
           leading: BackButton(
             onPressed: () {
-              // if (context.canPop()) {
-              //   context.pop();
-              // }
-              context.push('/');
+              if (context.canPop()) {
+                context.pop();
+              }
             },
           ),
           title: const Text('视频播放'),

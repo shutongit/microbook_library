@@ -71,6 +71,7 @@ class _MicroLibraryState extends State<MicroLibrary> {
     setState(() {});
     List arr = res['galleries'] ?? [];
     dataArray = arr.isNotEmpty ? res['galleries'] : [];
+    debugPrint('dataArray');
     _configItemInfo();
   }
 
@@ -78,85 +79,88 @@ class _MicroLibraryState extends State<MicroLibrary> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(color: Color(0xFFefefef)),
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
-          child: GridView.builder(
-            itemCount: dataArray.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, crossAxisSpacing: 10, mainAxisSpacing: 10),
-            itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                onTap: () {
-                  debugPrint('tap');
-                },
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: dataArray[index]['bgColor'],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    dataArray[index]['imgurl']?.isNotEmpty ?? false
-                        ? Positioned(
-                            bottom: 10,
-                            right: 10,
-                            width: 40,
-                            height: 40,
-                            child: Image.asset(
-                              dataArray[index]['imgurl'] ??
-                                  'assets/images/homeBBIcon/achievements.png',
-                              width: 20,
-                              fit: BoxFit.contain,
+      child: dataArray.isNotEmpty
+          ? Container(
+              margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+                child: GridView.builder(
+                  itemCount: dataArray.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10),
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: () {
+                        debugPrint('tap');
+                      },
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: dataArray[index]['bgColor'],
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          )
-                        : Container(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
-                      child: Text(
-                        '${dataArray[index]['gallery_name']}',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF000000),
-                        ),
+                          ),
+                          dataArray[index]['imgurl']?.isNotEmpty ?? false
+                              ? Positioned(
+                                  bottom: 10,
+                                  right: 10,
+                                  width: 40,
+                                  height: 40,
+                                  child: Image.asset(
+                                    dataArray[index]['imgurl'] ??
+                                        'assets/images/homeBBIcon/achievements.png',
+                                    width: 20,
+                                    fit: BoxFit.contain,
+                                  ),
+                                )
+                              : Container(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            child: Text(
+                              '${dataArray[index]['gallery_name']}',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Color(0xFF000000),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
+                    );
+                  },
+                ),
+              ))
+          : Center(
+              child: SizedBox(
+                height: 200,
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/black.png',
+                      height: 60,
                     ),
+                    const Text('未选择学校，请先'),
+                    TextButton(
+                        onPressed: () {
+                          debugPrint('选择学校');
+                        },
+                        child: const Text('选择学校')),
                   ],
                 ),
-              );
-            },
-          ),
-        ),
-      ),
+              ),
+            ),
     );
   }
 }
-
-/// 自定义
-// class CustomGridDelegate extends SliverGridDelegate {
-//   final double dimension;
-
-//   CustomGridDelegate({required this.dimension});
-
-//   @override
-//   SliverGridLayout getLayout(SliverConstraints constraints) {
-//     int count = constraints.crossAxisExtent ~/ dimension;
-
-//     // return Cutomg
-//   }
-
-//   @override
-//   bool shouldRelayout(covariant SliverGridDelegate oldDelegate) {
-//     // TODO: implement shouldRelayout
-//     throw UnimplementedError();
-//   }
-// }
