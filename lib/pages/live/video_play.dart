@@ -25,8 +25,6 @@ class _VideoPlayState extends State<VideoPlay> {
 
   @override
   void initState() {
-    debugPrint('3');
-
     super.initState();
     _downloadVideo();
 
@@ -48,7 +46,6 @@ class _VideoPlayState extends State<VideoPlay> {
   void initPlayer() async {
     // _videoController =
     //     VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
-    debugPrint('_localFilePath: $_localFilePath');
     _videoController = VideoPlayerController.file(File(_localFilePath ?? ''));
     final subtitles = [
       Subtitle(
@@ -89,19 +86,15 @@ class _VideoPlayState extends State<VideoPlay> {
 
       // 获取应用的临时目录
       var dir = await getTemporaryDirectory();
-      debugPrint('dir:$dir');
       String filePath = '${dir.path}/video.mp4';
-      debugPrint('filePath:$filePath');
 
       // 创建本地文件用于保存视频
       final file = File(filePath);
       final raf = file.openSync(mode: FileMode.write);
-      debugPrint('response:$response');
 
       // 写入文件
       // 手动将流写入文件
       await response.forEach((chunk) {
-        debugPrint('chunk:$chunk');
         raf.writeFromSync(chunk);
       });
       // await response.pipe(raf as StreamConsumer<List<int>>);
@@ -111,8 +104,6 @@ class _VideoPlayState extends State<VideoPlay> {
         _localFilePath = filePath;
         _isDownloading = false;
       });
-
-      debugPrint('widget.videoUrl: ${widget.videoUrl}');
 
       initPlayer();
     } catch (e) {

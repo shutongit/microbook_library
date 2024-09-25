@@ -23,12 +23,22 @@ dependencies:
   # 缓存目录
   path_provider: ^2.1.4
 
+  # 左右滚动卡片
   card_swiper: ^3.0.0
+
+  # 缓存图片
+  cached_network_image: ^3.4.1
+
+  # 自动转model相关
+  json_annotation: ^4.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  # 自动转model相关
+  json_serializable: ^6.8.0
+  build_runner: ^2.4.12
 
 flutter:
   uses-material-design: true

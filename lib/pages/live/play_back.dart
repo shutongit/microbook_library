@@ -72,7 +72,6 @@ class _PlayBackState extends State<PlayBack> {
               status: model.status,
               replayURL: model.replayURL,
               onTap: () {
-                debugPrint('mode: ${model.replayURL}');
                 context.push('/live/videoPlay', extra: model.replayURL);
                 // context.go('/live/videoPlay', extra: model.replayURL);
               },

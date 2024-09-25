@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
+
 import 'package:http/http.dart' as http;
 
 class NetworkService {
@@ -29,12 +29,13 @@ class NetworkService {
   }
 
   /// get请求
+  /// type: 基础接口类型
+  /// endpoint: 接口地址参数
   Future<dynamic> get({int type = 0, String endpoint = ''}) async {
     final response =
         await http.get(Uri.parse('${getRequestHeadUrl(type)}$endpoint'));
 
     if (response.statusCode == 200) {
-      // debugPrint('请求结果response: ${utf8.decode(response.bodyBytes)}');
       return jsonDecode(utf8.decode(response.bodyBytes));
     } else {
       throw Exception('Failed to load data');

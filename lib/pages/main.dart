@@ -55,7 +55,6 @@ class _MainPageState extends State<MainPage> {
           children: List.generate(pages.length, (index) {
             pages[index]['load'] =
                 pages[index]['load'] || _selectedIndex == index; // 记录是否加载过
-            debugPrint('pages${pages[index]}');
 
             /// 根据是否已经加载过，来确定是否显示加载
             return Offstage(

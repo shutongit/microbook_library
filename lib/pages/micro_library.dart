@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:microbook_library/http/network_service.dart';
+import 'package:microbook_library/pages/live/video_play.dart';
+import 'package:go_router/go_router.dart';
 
 class MicroLibrary extends StatefulWidget {
   const MicroLibrary({super.key});
@@ -71,7 +73,6 @@ class _MicroLibraryState extends State<MicroLibrary> {
     setState(() {});
     List arr = res['galleries'] ?? [];
     dataArray = arr.isNotEmpty ? res['galleries'] : [];
-    debugPrint('dataArray');
     _configItemInfo();
   }
 
@@ -98,7 +99,15 @@ class _MicroLibraryState extends State<MicroLibrary> {
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       onTap: () {
-                        debugPrint('tap');
+                        context.push('/micro/list');
+
+                        ///${dataArray[index]['gallery_id']}
+                        // context.go(Uri(
+                        //     path:
+                        //         'micro/list/${dataArray[index]['gallery_id']}',
+                        //     queryParameters: {
+                        //       'filter': dataArray[index]['gallery_name']
+                        //     }).toString());
                       },
                       child: Stack(
                         fit: StackFit.expand,
@@ -152,11 +161,7 @@ class _MicroLibraryState extends State<MicroLibrary> {
                       height: 60,
                     ),
                     const Text('未选择学校，请先'),
-                    TextButton(
-                        onPressed: () {
-                          debugPrint('选择学校');
-                        },
-                        child: const Text('选择学校')),
+                    TextButton(onPressed: () {}, child: const Text('选择学校')),
                   ],
                 ),
               ),
