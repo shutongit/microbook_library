@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +5,9 @@ import 'package:microbook_library/base/page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:microbook_library/http/network_service.dart';
 import 'package:microbook_library/model/live_model.dart';
+import 'package:microbook_library/model/micro_model.dart';
 import 'package:microbook_library/widgets/micro/live_item.dart';
+import 'package:microbook_library/widgets/micro/micro_item.dart';
 
 class MicroList extends BasePage {
   final String? id;
@@ -18,7 +19,12 @@ class MicroList extends BasePage {
 
 class _MicroListState extends BasePageState<MicroList> {
   final NetworkService _networkService = NetworkService();
+  final _swiperController = SwiperController();
   List<LiveModel> liveList = []; // 直播列表
+  List<MicroModel> microList = []; // 微册列表
+  int page = 1; // 当前页码
+  bool noMoreData = false; // 是否还有更多数据
+  int allCount = 0;
 
   @override
   void initState() {
@@ -33,45 +39,75 @@ class _MicroListState extends BasePageState<MicroList> {
         },
         icon: const Icon(Icons.baby_changing_station)));
 
-    loadLiveList();
-    loadMicroList();
-  }
-
-  List<Widget> playWidget() {
-    List<Widget> list = [];
-    for (var i = 0; i < liveList.length; i++) {
-      LiveModel model = liveList[i];
-      list.add(Text('logo:${model.logo}'));
-    }
-    return list;
+    loadAllData();
   }
 
   @override
   Widget buildBody() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 50),
-      child: Swiper(
-        itemBuilder: (context, index) {
-          return LiveItem(model: liveList[index]);
-        },
-        itemCount: liveList.length,
-        autoplay: false,
-        loop: false,
-        scrollDirection: Axis.horizontal,
-        viewportFraction: 0.7,
-        scale: 0.9,
-        curve: Curves.bounceIn,
-        onIndexChanged: (value) {
-          log('value:$value');
-        },
-      ),
+    return Swiper(
+      itemBuilder: (context, index) {
+        return LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+          // 根据组件大小来设置子组件的大小
+          return Center(
+            child: SizedBox(
+              width: constraints.biggest.width,
+              height: constraints.biggest.width * 343 / 244,
+              child: index < liveList.length
+                  ? LiveItem(model: liveList[index])
+                  : MicroItem(model: microList[index - liveList.length]),
+            ),
+          );
+        });
+      },
+      itemCount: allCount,
+      autoplay: false,
+      loop: false,
+      scrollDirection: Axis.horizontal,
+      viewportFraction: 0.7,
+      scale: 0.9,
+      curve: Curves.bounceIn,
+      controller: _swiperController,
+      onIndexChanged: (value) {
+        log('va: $value');
+        log('allCount$allCount');
+        if (value == (allCount - 2)) {
+          log('loading');
+          page++;
+          loadMicroList();
+        }
+      },
     );
   }
 
+  // 请求直播列表和微册列表
+  void loadAllData() async {
+    showLoading();
+    await Future.wait([requestLiveList(), requestMicroList()]).then((values) {
+      setState(() {
+        liveList.addAll(values[0] as List<LiveModel>);
+        microList.addAll(values[1] as List<MicroModel>);
+        allCount = microList.length + liveList.length;
+      });
+    }).whenComplete(() {
+      hideLoading();
+    });
+  }
+
+  /// 请求微册
+  void loadMicroList() async {
+    List<MicroModel> list = await requestMicroList();
+    setState(() {
+      microList.addAll(list);
+      log('microList: ${microList.length}');
+      allCount += list.length;
+    });
+  }
+
   // 请求直播列表
-  void loadLiveList() async {
+  Future<List<LiveModel>> requestLiveList() async {
     const param = {
-      'company_id': '10306',
+      'company_id': '50672',
       'p': 1,
       'app_version': '1.0.0',
       'official': 1,
@@ -88,18 +124,28 @@ class _MicroListState extends BasePageState<MicroList> {
     List<LiveModel> list = live.map((json) {
       return LiveModel.fromJson(json);
     }).toList();
-    setState(() {
-      liveList.addAll(list);
-    });
+
+    return list;
   }
 
   // 请求微册列表
-  void loadMicroList() async {
-    Map<String, dynamic> param = {"count": 10, "page": 1, "school_id": "10306"};
+  Future<List<MicroModel>> requestMicroList() async {
+    Map<String, dynamic> param = {
+      "count": 10,
+      "page": page,
+      "school_id": "10306"
+    };
     final res = await _networkService.post(
         type: 1,
         endpoint: '/gallery/api/v1/micro_book/list_dynamic',
         data: param);
-    log('res: $res');
+    List micro = res['micro_books'] ?? [];
+    log('res:$res');
+    log('page: $page');
+    List<MicroModel> list = micro.map((json) {
+      return MicroModel.fromJson(json);
+    }).toList();
+
+    return list;
   }
 }

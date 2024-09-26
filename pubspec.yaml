@@ -32,6 +32,9 @@ dependencies:
   # 自动转model相关
   json_annotation: ^4.9.0
 
+  # 加载网页相关
+  webview_flutter: ^4.9.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
