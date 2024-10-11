@@ -61,12 +61,14 @@ class _LivePageState extends State<LivePage> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  setState(() {
-                    _currentPageIndex = index;
-                    _pageViewController.animateToPage(_currentPageIndex,
-                        duration: const Duration(microseconds: 400),
-                        curve: Curves.easeInOut);
-                  });
+                  if (mounted) {
+                    setState(() {
+                      _currentPageIndex = index;
+                      _pageViewController.animateToPage(_currentPageIndex,
+                          duration: const Duration(microseconds: 400),
+                          curve: Curves.easeInOut);
+                    });
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -156,10 +158,11 @@ List<Map> getDates() {
         '${time.month.toString().padLeft(2, '0')}-${time.day.toString().padLeft(2, '0')}';
     dates.add({
       'value':
-          '${time.year}${time.month > 10 ? time.month : '0${time.month}'}${time.day > 10 ? time.day : '0${time.day}'}',
+          '${time.year}${time.month >= 10 ? time.month : '0${time.month}'}${time.day >= 10 ? time.day : '0${time.day}'}',
       "label": timeString
     });
   }
+  debugPrint('dates: $dates');
   return dates;
 }
 

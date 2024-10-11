@@ -67,6 +67,30 @@ class LiveModel {
       replayURL: json['replay_url'] ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "column_id": columnId,
+      "column_img": columnImg,
+      "company_id": companyId,
+      "company_location": companyLocation,
+      "company_name": companyName,
+      "content": content,
+      "flag": flag,
+      "grade": grade,
+      "h5_url": h5Url,
+      "id_live": idLive,
+      "img_big_url": imgBigUrl,
+      "livelocation": livelocation,
+      "livesubject": livesubject,
+      "livetime": livetime,
+      "liveurl": liveurl,
+      "logo": logo,
+      "status": status,
+      "theme": theme,
+      "replay_url": replayURL,
+    };
+  }
 }
 
 /// 判断链接是否以http开头

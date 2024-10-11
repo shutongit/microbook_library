@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:microbook_library/router/router.dart';
+import 'package:toastification/toastification.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,9 +11,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return ToastificationWrapper(
+        child: MaterialApp.router(
       theme: ThemeData(primaryColor: const Color(0xFFFFFFFF)),
       routerConfig: routes,
-    );
+    ));
   }
 }

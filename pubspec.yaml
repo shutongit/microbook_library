@@ -35,11 +35,23 @@ dependencies:
   # 加载网页相关
   webview_flutter: ^4.9.0
 
+  # 状态管理回调
+  flutter_bloc: ^8.1.6
+
+  # 允许声明多种数据类型
+  dartz: ^0.10.1
+
+  # toast
+  toastification: ^2.3.0
+
+  # 视频播放器
+  flutter_aliplayer: ^6.15.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-  # 自动转model相关
+  # 自动转model相关, 使用命令：dart run build_runner build
   json_serializable: ^6.8.0
   build_runner: ^2.4.12
 

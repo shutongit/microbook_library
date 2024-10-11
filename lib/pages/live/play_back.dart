@@ -33,21 +33,25 @@ class _PlayBackState extends State<PlayBack> {
 
       Map<String, dynamic> param = {
         "flag": widget.time,
-        'app_version': '1.0',
+        'app_version': '1.0.0',
         'official': 1,
         'apptype': 3
       };
       final String paramString =
           param.entries.map((e) => '${e.key}=${e.value}').join('&');
+      debugPrint('paramString:$paramString');
       final response =
           await _networkService.get(type: 0, endpoint: '$url$paramString');
 
       List<dynamic> data = response['data'] ?? [];
       List<LiveModel> list =
           data.map((json) => LiveModel.fromJson(json)).toList();
-      setState(() {
-        _dataList.addAll(list);
-      });
+      debugPrint('mounted:$mounted, $response');
+      if (mounted) {
+        setState(() {
+          _dataList.addAll(list);
+        });
+      }
     } catch (e) {
       debugPrint('e: $e');
     }
@@ -58,26 +62,31 @@ class _PlayBackState extends State<PlayBack> {
     return RefreshIndicator(
         color: Colors.blue,
         backgroundColor: Colors.amber,
-        child: ListView.builder(
-          itemBuilder: (context, index) {
-            LiveModel model = _dataList[index];
-            return LiveListItem(
-              schoolName: model.companyName,
-              theme: model.theme,
-              content: model.content,
-              logo: model.logo,
-              imgBigUrl: model.imgBigUrl,
-              location: model.livelocation,
-              time: model.livetime,
-              status: model.status,
-              replayURL: model.replayURL,
-              onTap: () {
-                context.push('/live/videoPlay', extra: model.replayURL);
-                // context.go('/live/videoPlay', extra: model.replayURL);
-              },
-            );
+        child: GestureDetector(
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              LiveModel model = _dataList[index];
+              return LiveListItem(
+                schoolName: model.companyName,
+                theme: model.theme,
+                content: model.content,
+                logo: model.logo,
+                imgBigUrl: model.imgBigUrl,
+                location: model.livelocation,
+                time: model.livetime,
+                status: model.status,
+                replayURL: model.replayURL,
+                onTap: () {
+                  context.push('/live/videoPlay', extra: model.replayURL);
+                  // context.go('/live/videoPlay', extra: model.replayURL);
+                },
+              );
+            },
+            itemCount: _dataList.length,
+          ),
+          onTap: () {
+            context.push('/live/videoPlay', extra: 'model.replayURL');
           },
-          itemCount: _dataList.length,
         ),
         onRefresh: () async {
           debugPrint('刷新');

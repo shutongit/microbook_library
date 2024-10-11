@@ -4,10 +4,14 @@ part 'micro_model.g.dart';
 
 @JsonSerializable()
 class MicroModel {
-  final String gallery_id, school_id, micro_book_cover, micro_book_id;
-  final int sort_id, publish, status;
+  final String? gallery_id,
+      school_id,
+      micro_book_cover,
+      micro_book_id,
+      micro_book_url;
+  final int? sort_id, publish, status;
 
-  MicroModel(
+  MicroModel(this.micro_book_url,
       {required this.gallery_id,
       required this.school_id,
       required this.micro_book_cover,

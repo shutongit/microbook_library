@@ -1,5 +1,13 @@
 PODS:
+  - AliVCSDK_InteractiveLive (6.15.0):
+    - AliVCSDK_InteractiveLive/Default (= 6.15.0)
+  - AliVCSDK_InteractiveLive/Default (6.15.0)
   - Flutter (1.0.0)
+  - flutter_aliplayer (6.7.0):
+    - AliVCSDK_InteractiveLive (= 6.15.0)
+    - Flutter
+    - MJExtension
+  - MJExtension (3.4.2)
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -13,18 +21,30 @@ PODS:
     - FlutterMacOS
   - wakelock_plus (0.0.1):
     - Flutter
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
+    - FlutterMacOS
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - flutter_aliplayer (from `.symlinks/plugins/flutter_aliplayer/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/darwin`)
   - wakelock_plus (from `.symlinks/plugins/wakelock_plus/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
+
+SPEC REPOS:
+  trunk:
+    - AliVCSDK_InteractiveLive
+    - MJExtension
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  flutter_aliplayer:
+    :path: ".symlinks/plugins/flutter_aliplayer/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
@@ -35,14 +55,20 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/video_player_avfoundation/darwin"
   wakelock_plus:
     :path: ".symlinks/plugins/wakelock_plus/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
+  AliVCSDK_InteractiveLive: 476d97b3fafdace9510f8cc2749cb3778f057ffd
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_aliplayer: ff0a58117de9b944e3fc4d211adac2ca80ffaeab
+  MJExtension: e97d164cb411aa9795cf576093a1fa208b4a8dd8
   package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
   video_player_avfoundation: 7c6c11d8470e1675df7397027218274b6d2360b3
   wakelock_plus: 78ec7c5b202cab7761af8e2b2b3d0671be6c4ae1
+  webview_flutter_wkwebview: 0982481e3d9c78fd5c6f62a002fcd24fc791f1e4
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 

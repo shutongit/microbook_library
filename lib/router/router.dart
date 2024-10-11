@@ -32,6 +32,6 @@ final GoRouter routes = GoRouter(routes: [
           String id = state.pathParameters['id'] ?? '';
           return MicroList(id);
         })
-  ])
+  ]),
 ]);
 // }

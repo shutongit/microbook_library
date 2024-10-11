@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkService {
@@ -34,6 +35,7 @@ class NetworkService {
   Future<dynamic> get({int type = 0, String endpoint = ''}) async {
     final response =
         await http.get(Uri.parse('${getRequestHeadUrl(type)}$endpoint'));
+    debugPrint('接口参数: ${getRequestHeadUrl(type)}$endpoint}');
 
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));

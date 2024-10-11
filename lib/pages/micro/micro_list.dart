@@ -1,13 +1,19 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:microbook_library/base/page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:microbook_library/http/network_service.dart';
 import 'package:microbook_library/model/live_model.dart';
 import 'package:microbook_library/model/micro_model.dart';
+import 'package:microbook_library/pages/live/live.dart';
+import 'package:microbook_library/pages/micro/micro_list_bloc.dart';
 import 'package:microbook_library/widgets/micro/live_item.dart';
 import 'package:microbook_library/widgets/micro/micro_item.dart';
+import 'package:microbook_library/widgets/micro/web.dart';
+import 'package:microbook_library/widgets/toast.dart';
+import 'package:toastification/toastification.dart';
 
 class MicroList extends BasePage {
   final String? id;
@@ -49,13 +55,38 @@ class _MicroListState extends BasePageState<MicroList> {
         return LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
           // 根据组件大小来设置子组件的大小
-          return Center(
-            child: SizedBox(
-              width: constraints.biggest.width,
-              height: constraints.biggest.width * 343 / 244,
-              child: index < liveList.length
-                  ? LiveItem(model: liveList[index])
-                  : MicroItem(model: microList[index - liveList.length]),
+          return BlocProvider(
+            create: (context) => MicroListBloc({}),
+            child: Center(
+              child: BlocListener<MicroListBloc, Map<String, dynamic>>(
+                listener: (context, state) {
+                  // log('context: $context ');
+                  // log('state: $state ');
+                  if (state['micro_book_url'] != null) {
+                    final String url =
+                        'https://h5cdn.cretech.cn/v/${state['micro_book_url']}';
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog.fullscreen(
+                              child: WebViewExample(url: url));
+                        });
+                  } else {
+                    // Toast().showToast(context, '不可预览！');
+                    // Toast(context, '123');
+                    Toast().showToast(context, '不可预览！');
+                  }
+                },
+                child: SizedBox(
+                  width: constraints.biggest.width,
+                  height: constraints.biggest.width * 343 / 244,
+                  child: index < liveList.length
+                      ? LiveItem(model: liveList[index])
+                      : MicroItem(
+                          model: microList[index - liveList.length],
+                        ),
+                ),
+              ),
             ),
           );
         });
@@ -69,10 +100,7 @@ class _MicroListState extends BasePageState<MicroList> {
       curve: Curves.bounceIn,
       controller: _swiperController,
       onIndexChanged: (value) {
-        log('va: $value');
-        log('allCount$allCount');
         if (value == (allCount - 2)) {
-          log('loading');
           page++;
           loadMicroList();
         }
@@ -99,7 +127,6 @@ class _MicroListState extends BasePageState<MicroList> {
     List<MicroModel> list = await requestMicroList();
     setState(() {
       microList.addAll(list);
-      log('microList: ${microList.length}');
       allCount += list.length;
     });
   }
@@ -140,8 +167,7 @@ class _MicroListState extends BasePageState<MicroList> {
         endpoint: '/gallery/api/v1/micro_book/list_dynamic',
         data: param);
     List micro = res['micro_books'] ?? [];
-    log('res:$res');
-    log('page: $page');
+
     List<MicroModel> list = micro.map((json) {
       return MicroModel.fromJson(json);
     }).toList();
