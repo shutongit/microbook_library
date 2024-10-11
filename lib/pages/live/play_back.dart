@@ -77,7 +77,9 @@ class _PlayBackState extends State<PlayBack> {
                 status: model.status,
                 replayURL: model.replayURL,
                 onTap: () {
-                  context.push('/live/videoPlay', extra: model.replayURL);
+                  context.push('/live/videoPlay',
+                      extra:
+                          'https://iclasscloud.cretech.cn/livecloudm/lib/playvideo.html?play=${model.replayURL}');
                   // context.go('/live/videoPlay', extra: model.replayURL);
                 },
               );

@@ -20,6 +20,7 @@ final GoRouter routes = GoRouter(routes: [
           builder: (context, state) {
             final String extraString =
                 GoRouterState.of(context).extra! as String;
+
             return VideoPlay(videoUrl: extraString);
           })
     ],

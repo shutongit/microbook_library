@@ -64,12 +64,29 @@ class _MicroListState extends BasePageState<MicroList> {
                   // log('state: $state ');
                   if (state['micro_book_url'] != null) {
                     final String url =
-                        'https://h5cdn.cretech.cn/v/${state['micro_book_url']}';
+                        'https://h5cdn.cretech.cn/v/${state['micro_book_url']}?exemplarReview=true';
                     showDialog(
                         context: context,
                         builder: (context) {
-                          return Dialog.fullscreen(
-                              child: WebViewExample(url: url));
+                          return Stack(
+                            children: [
+                              Dialog.fullscreen(
+                                child: WebViewExample(url: url),
+                              ),
+                              Positioned(
+                                  left: 10,
+                                  top: 10,
+                                  width: 20,
+                                  height: 20,
+                                  child: IconButton(
+                                      color: Colors.white,
+                                      onPressed: () {
+                                        log('点击');
+                                        Navigator.pop(context);
+                                      },
+                                      icon: const Icon(Icons.close)))
+                            ],
+                          );
                         });
                   } else {
                     // Toast().showToast(context, '不可预览！');
